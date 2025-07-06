@@ -1,73 +1,89 @@
-LSTM-Based Multivariate Time Series for Stock Price Prediction
+# LSTM for Multivariate Time Series — Predicting Google Stock Prices
 
-This project uses an LSTM-based Recurrent Neural Network to forecast stock prices. The model was trained on five years of Google (Alphabet Inc.) stock data to predict price movements over a two-month horizon.
+This project uses an LSTM-based Recurrent Neural Network to forecast Google’s stock price. The model was trained on five years of historical data to predict price movements over a two-month horizon.
 
-Dataset: Google Stock (GOOG)
+---
 
-The data comes from Yahoo Finance and includes daily records of Alphabet Inc.’s stock, covering these fields: open, high, low, close, adjusted close, and trading volume.
+## Dataset — [Google Stock (GOOG)](https://finance.yahoo.com/quote/GOOG/history)
 
-After an initial exploration of the full dataset, we narrowed it down to three distinct timeframes:
+The dataset includes daily stock data for Alphabet Inc. (GOOG), sourced from [Yahoo Finance](https://finance.yahoo.com). Each record contains:
 
-Training: Jan 2019 – June 2023
+- Open  
+- High  
+- Low  
+- Close  
+- Adjusted Close  
+- Volume  
 
-Validation: July 2023 – Dec 2023
+Timeframes used:
 
-Testing: Jan 2024 – Feb 2024
+- **Training**: Jan 2019 – June 2023  
+- **Validation**: July 2023 – Dec 2023  
+- **Testing**: Jan 2024 – Feb 2024  
 
-Phase 1: Exploration & Preprocessing
-Exploratory steps:
+---
 
-Pulled and loaded the raw data
+##  Phase 1 — EDA & Preprocessing
 
-Reviewed summary stats and trends
+### Data Exploration
 
-Cleaned up missing or misformatted entries
+- Downloaded the full dataset  
+- Reviewed summary statistics  
+- Cleaned missing values and validated data types  
+- Analyzed price trends over time  
+- Filtered data based on selected date ranges  
+- Saved the filtered version locally  
 
-Analyzed time-based patterns
+### Data Preparation
 
-Filtered the dataset to the selected date ranges
+- Reloaded filtered data  
+- Confirmed column types  
+- Selected features and target labels  
+- Split into training, validation, and test sets  
+- Normalized values using [`MinMaxScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html)  
+- Saved preprocessed datasets  
 
-Saved the filtered version locally
+---
 
-Preprocessing tasks:
+##  Phase 2 — Model Training & Prediction
 
-Reloaded the filtered data
+### Model Architecture
 
-Ensured proper data types
+Built using [`TensorFlow`](https://www.tensorflow.org/api_docs/python/tf/keras/Sequential) Sequential API:
 
-Picked features and labels
+- Input layer  
+- 4× [`LSTM`](https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM) layers (100 units each)  
+- 4× [`Dropout`](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout) layers (rate = 0.2)  
+- Final [`Dense`](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense) output layer (1 unit)
 
-Split data into training, validation, and test sets
+### Training Configuration
 
-Normalized values to the [0, 1] range using MinMaxScaler
+- Optimizer: [`Adam`](https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam)  
+- Loss: [`MeanSquaredError`](https://www.tensorflow.org/api_docs/python/tf/keras/losses/MeanSquaredError)  
+- Epochs: 200  
+- Batch size: 64  
 
-Saved the processed datasets to local storage
+### Steps
 
-Phase 2: Model Training & Prediction
-Training and prediction steps:
+- Loaded preprocessed datasets  
+- Created input sequences  
+- Compiled and trained the LSTM model  
+- Evaluated training and validation loss  
+- Predicted prices on all data segments  
+- Applied inverse scaling for real-world values  
+- Visualized predictions  
 
-Loaded preprocessed data
+---
 
-Built input sequences for LSTM
+##  Prediction Results
 
-Defined the model in TensorFlow as follows:
+### Full Prediction  
+![Google stock price predictions with LSTM](overall_prediction.png)
 
-Input layer
+### Last 50 Trading Days  
+![Google stock price predictions with LSTM](last_50_days.png)
 
-4 LSTM layers (each with 100 units)
+---
 
-4 Dropout layers (0.2 rate)
+##  Project Structure
 
-Final Dense layer (1 unit)
-
-Compiled the model with Adam optimizer and MSE loss
-
-Trained the model for 200 epochs with a batch size of 64
-
-Tracked training and validation loss
-
-Generated predictions for all three time segments
-
-Reversed the scaling to get predictions in actual price terms
-
-Plotted and reviewed the results
