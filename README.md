@@ -74,16 +74,3 @@ Built using [`TensorFlow`](https://www.tensorflow.org/api_docs/python/tf/keras/S
 - Visualized predictions  
 
 ---
-
-##  Prediction Results
-
-### Full Prediction  
-![Google stock price predictions with LSTM](overall_prediction.png)
-
-### Last 50 Trading Days  
-![Google stock price predictions with LSTM](last_50_days.png)
-
----
-
-##  Project Structure
-
